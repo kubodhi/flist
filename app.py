@@ -61,7 +61,7 @@ def strike(this_id):
 @app.route('/')
 def home():
     ''' applicaiton root '''
-    return render_template('index.html')
+    return redirect(url_for('view_items'))
 
 if __name__ == '__main__':
     initialize()
