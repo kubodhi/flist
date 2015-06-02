@@ -11,7 +11,17 @@ app.config['SECRET_KEY'] = '876H87^H685f&6f5ryh7EDHg74g63s'
 
 # define a list item class
 class ListItem(Model):
-  
+    content = CharField()
+    strike = BooleanField(default=False)
+    
+    class Meta:
+        database = LIST_DB
+
+def initialize():
+    ''' initialize the DB if needed '''
+    LIST_DB.connect()
+    LIST_DB.create_tables([ListItem], safe=True)
+
 @app.route('/add', methods=['POST'])
 def add_item():
     ''' add items to the list '''
@@ -37,4 +47,5 @@ def home():
     return "stub"
 
 if __name__ == '__main__':
+    initialize()
     app.run(debug=True, host='0.0.0.0', port=3000)
