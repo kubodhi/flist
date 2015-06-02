@@ -1,4 +1,4 @@
 venv/
-listitems.db
+*.db
 settings.cfg
 *.pyc
