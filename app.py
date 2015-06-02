@@ -1,7 +1,13 @@
 #!/usr/bin/env python
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for
+
+from peewee import *
+
+LIST_DB = SqliteDatabase('listitems.db')
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = '876H87^H685f&6f5ryh7EDHg74g63s'
 
 # define a list item class
 class ListItem(Model):
