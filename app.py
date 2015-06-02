@@ -60,7 +60,7 @@ def strike(this_id):
 
 @app.route('/')
 def home():
-    ''' applicaiton root '''
+    ''' application root '''
     return redirect(url_for('view_items'))
 
 if __name__ == '__main__':
