@@ -26,13 +26,18 @@ def initialize():
 
 @app.route('/add', methods=['POST'])
 def add_item():
+    ''' add items to the list '''
     ListItem.create(content=request.form['contentadd'])
     return redirect(url_for('view_items'))
 
 @app.route('/view')
 def view_items():
     ''' view items in the list '''
-    return "stub"
+    items = ListItem.select()
+    if items:
+        return render_template('view.html', items=items)
+    else:
+        print("No items")
 
 @app.route('/delete/<this_id>')
 def delete_item(this_id):
