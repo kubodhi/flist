@@ -49,11 +49,19 @@ def delete_item(this_id):
 @app.route('/strike/<this_id>')
 def strike(this_id):
     ''' move items to and from deletion staging area '''
+    rec = ListItem.get(ListItem.id == this_id)
+    if rec.strike:
+      q = ListItem.update(strike=False).where(ListItem.id == this_id)
+      q.execute()
+    else:
+      q = ListItem.update(strike=True).where(ListItem.id == this_id)
+      q.execute()
+    return redirect(url_for('view_items'))
 
 @app.route('/')
 def home():
     ''' applicaiton root '''
-    return "stub"
+    return render_template('index.html')
 
 if __name__ == '__main__':
     initialize()
