@@ -5,9 +5,9 @@ from peewee import *
 
 LIST_DB = SqliteDatabase('listitems.db')
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
 
-app.config['SECRET_KEY'] = '876H87^H685f&6f5ryh7EDHg74g63s'
+app.config.from_pyfile('settings.cfg', silent=True)
 
 # define a list item class
 class ListItem(Model):
