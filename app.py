@@ -7,6 +7,8 @@ LIST_DB = SqliteDatabase('listitems.db')
 
 app = Flask(__name__, instance_relative_config=True)
 
+# create a settings.cfg in the base directory with the uncommented line:
+# SECRET_KEY = 'yourGibberishStringHere'
 app.config.from_pyfile('settings.cfg', silent=True)
 
 # define a list item class
@@ -24,8 +26,8 @@ def initialize():
 
 @app.route('/add', methods=['POST'])
 def add_item():
-    ''' add items to the list '''
-    return "stub"
+    ListItem.create(content=request.form['contentadd'])
+    return redirect(url_for('view_items'))
 
 @app.route('/view')
 def view_items():
