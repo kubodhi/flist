@@ -42,7 +42,9 @@ def view_items():
 @app.route('/delete/<this_id>')
 def delete_item(this_id):
     ''' delete items from the list '''
-    return "stub"
+    q = ListItem.delete().where(ListItem.id == this_id)
+    q.execute()
+    return redirect(url_for('view_items'))
 
 @app.route('/strike/<this_id>')
 def strike(this_id):
