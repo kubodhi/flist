@@ -6,7 +6,7 @@ from peewee import *
 
 app = Flask(__name__, instance_relative_config=True)
 app.config['PEEWEE_DATABASE_URI'] = os.environ['DATABASE_URL']
-LIST_DB = PostgresqlDatabase('PEEWEE_DATABASE_URI', user='postgres')
+LIST_DB = PostgresqlDatabase('PEEWEE_DATABASE_URI', user='gkkbtsxkgorkya:ICjYC9KzHjCV8uOHRALCLXjaBy')
 
 # create a settings.cfg in the base directory with the uncommented line:
 # SECRET_KEY = 'yourGibberishStringHere'
