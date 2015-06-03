@@ -3,6 +3,7 @@ import os, urlparse
 from flask import Flask, render_template, request, redirect, url_for
 
 from peewee import *
+from flask_peewee.db import Database
 
 urlparse.uses_netloc.append('postgres')
 db_url = urlparse.urlparse(os.environ['DATABASE_URL'])
