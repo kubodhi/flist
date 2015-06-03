@@ -18,7 +18,6 @@ DATABASE = {
     'port': url.port,
 
 app = Flask(__name__)
-app.config.from_object(__name__)
 LIST_DB = PostgresqlDatabase(DATABASE['name'], host=DATABASE['host'], user=DATABASE['user'], port=DATABASE['port'], password=DATABASE['password'])
 
 # create a settings.cfg in the base directory with the uncommented line:
