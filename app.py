@@ -1,9 +1,11 @@
 #!/usr/bin/env python
+import os
 from flask import Flask, render_template, request, redirect, url_for
 
 from peewee import *
 
-LIST_DB = SqliteDatabase('listitems.db')
+app.config['PEEWEE_DATABASE_URI'] = os.environ['DATABASE_URL']
+LIST_DB = PostgresqlDatabase('PEEWEE_DATABASE_URI', user='postgres')
 
 app = Flask(__name__, instance_relative_config=True)
 
