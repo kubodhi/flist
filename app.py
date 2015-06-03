@@ -1,12 +1,24 @@
 #!/usr/bin/env python
-import os
+import os, urlparse
 from flask import Flask, render_template, request, redirect, url_for
 
 from peewee import *
 
+urlparse.uses_netloc.append('postgres')
+db_url = urlparse.urlparse(os.environ['DATABASE_URL'])
+
+# for your config
+DATABASE = {
+    'engine': 'peewee.PostgresqlDatabase',
+    'name': db_url.path[1:],
+    'password': db_url.password,
+    'host': db_url.hostname,
+    'port': db_url.port,
+}
+
 app = Flask(__name__, instance_relative_config=True)
-app.config['PEEWEE_DATABASE_URI'] = os.environ['DATABASE_URL']
-LIST_DB = PostgresqlDatabase('PEEWEE_DATABASE_URI', user='gkkbtsxkgorkya')
+app.config.from_object(__name__)
+LIST_DB = Database(app)
 
 # create a settings.cfg in the base directory with the uncommented line:
 # SECRET_KEY = 'yourGibberishStringHere'
