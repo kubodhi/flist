@@ -3,21 +3,22 @@ import os, urlparse
 from flask import Flask, render_template, request, redirect, url_for
 
 from peewee import *
+from flask_peewee.db import Database
 
 urlparse.uses_netloc.append('postgres')
-db_url = urlparse.urlparse(os.environ['DATABASE_URL'])
-
-# for your config
+url = urlparse.urlparse(os.environ['DATABASE_URL'])
 DATABASE = {
     'engine': 'peewee.PostgresqlDatabase',
-    'name': db_url.path[1:],
-    'password': db_url.password,
-    'host': db_url.hostname,
-    'port': db_url.port,
+    'name': url.path[1:],
+    'user': url.username,
+    'password': url.password,
+    'host': url.hostname,
+    'port': url.port,
 }
 
 app = Flask(__name__, instance_relative_config=True)
-LIST_DB = PostgresqlDatabase(DATABASE)
+app.config.from_object(__name__)
+LIST_DB = Database(app)
 
 # create a settings.cfg in the base directory with the uncommented line:
 # SECRET_KEY = 'yourGibberishStringHere'
