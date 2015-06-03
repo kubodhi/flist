@@ -1,22 +1,38 @@
 #!/usr/bin/env python
-import os, urlparse
+import os
+import urlparse
+import psycopg2
 from flask import Flask, render_template, request, redirect, url_for
-
 from peewee import *
 from flask_peewee.db import Database
 
-urlparse.uses_netloc.append('postgres')
-db_url = urlparse.urlparse(os.environ['DATABASE_URL'])
-app = Flask(__name__, instance_relative_config=True)
-app.config.from_object(__name__)
+if 'HEROKU' in os.environ:
+    DEBUG = False
+    urlparse.uses_netloc.append('postgres')
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    DATABASE = {
+        'engine': 'peewee.PostgresqlDatabase',
+        'name': url.path[1:],
+        'user': url.username,
+        'password': url.password,
+        'host': url.hostname,
+        'port': url.port,
+    }
+else:
+    DEBUG = True
+    DATABASE = {
+        'engine': 'peewee.PostgresqlDatabase',
+        'name': 'framingappdb',
+        'user': 'action',
+        'password': '',
+        'host': 'localhost',
+        'port': 5432 ,
+        'threadlocals': True
+    }
 
-LIST_DB = PostgresqlDatabase(
-    database=db_url.path[1:],
-    user=db_url.username,
-    password=db_url.password,
-    host=db_url.hostname,
-    port=db_url.port
-)
+app = Flask(__name__)
+app.config.from_object(__name__)
+LIST_DB = Database(app)
 
 # create a settings.cfg in the base directory with the uncommented line:
 # SECRET_KEY = 'yourGibberishStringHere'
