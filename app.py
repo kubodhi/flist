@@ -4,10 +4,9 @@ from flask import Flask, render_template, request, redirect, url_for
 
 from peewee import *
 
+app = Flask(__name__, instance_relative_config=True)
 app.config['PEEWEE_DATABASE_URI'] = os.environ['DATABASE_URL']
 LIST_DB = PostgresqlDatabase('PEEWEE_DATABASE_URI', user='postgres')
-
-app = Flask(__name__, instance_relative_config=True)
 
 # create a settings.cfg in the base directory with the uncommented line:
 # SECRET_KEY = 'yourGibberishStringHere'
