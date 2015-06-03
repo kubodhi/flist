@@ -18,7 +18,7 @@ DATABASE = {
     'port': url.port,
 
 app = Flask(__name__)
-LIST_DB = PostgresqlDatabase(DATABASE['name'], host=DATABASE['host'], user=DATABASE['user'], port=DATABASE['port'], password=DATABASE['password'])
+LIST_DB = PostgresqlDatabase('d535rpp2f26h9n', host='ec2-54-83-41-183.compute-1.amazonaws.com', user='gkkbtsxkgorkya', port='5432', password='ICjYC9KzHjCV8uOHRALCLXjaBy')
 
 # create a settings.cfg in the base directory with the uncommented line:
 # SECRET_KEY = 'yourGibberishStringHere'
