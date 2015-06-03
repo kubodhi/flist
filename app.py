@@ -6,14 +6,14 @@ from peewee import *
 from flask_peewee.db import Database
 
 urlparse.uses_netloc.append('postgres')
-url = urlparse.urlparse(os.environ['DATABASE_URL'])
+db_url = urlparse.urlparse(os.environ['DATABASE_URL'])
 DATABASE = {
     'engine': 'peewee.PostgresqlDatabase',
-    'name': url.path[1:],
-    'user': url.username,
-    'password': url.password,
-    'host': url.hostname,
-    'port': url.port,
+    'name': db_url.path[1:],
+    'user': db_url.username,
+    'password': db_url.password,
+    'host': db_url.hostname,
+    'port': db_url.port,
 }
 
 app = Flask(__name__, instance_relative_config=True)
