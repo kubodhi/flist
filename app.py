@@ -1,21 +1,21 @@
 #!/usr/bin/env python
-import os
-import urlparse
+#import os
+#import urlparse
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for
 from peewee import *
-from flask_peewee.db import Database
+#from flask_peewee.db import Database
 
-urlparse.uses_netloc.append('postgres')
-url = urlparse.urlparse(os.environ['DATABASE_URL'])
-print(DATABASE_URL)
-DATABASE = {
-    'engine': 'peewee.PostgresqlDatabase',
-    'name': url.path[1:],
-    'user': url.username,
-    'password': url.password,
-    'host': url.hostname,
-    'port': url.port,
+#urlparse.uses_netloc.append('postgres')
+#url = urlparse.urlparse(os.environ['DATABASE_URL'])
+#print(DATABASE_URL)
+#DATABASE = {
+#    'engine': 'peewee.PostgresqlDatabase',
+#    'name': url.path[1:],
+#    'user': url.username,
+#    'password': url.password,
+#    'host': url.hostname,
+#    'port': url.port,
 
 app = Flask(__name__)
 LIST_DB = PostgresqlDatabase('d535rpp2f26h9n', host='ec2-54-83-41-183.compute-1.amazonaws.com', user='gkkbtsxkgorkya', port='5432', password='ICjYC9KzHjCV8uOHRALCLXjaBy')
