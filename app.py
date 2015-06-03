@@ -6,29 +6,16 @@ from flask import Flask, render_template, request, redirect, url_for
 from peewee import *
 from flask_peewee.db import Database
 
-if 'HEROKU' in os.environ:
-    DEBUG = False
-    urlparse.uses_netloc.append('postgres')
-    url = urlparse.urlparse(os.environ['DATABASE_URL'])
-    DATABASE = {
-        'engine': 'peewee.PostgresqlDatabase',
-        'name': url.path[1:],
-        'user': url.username,
-        'password': url.password,
-        'host': url.hostname,
-        'port': url.port,
-    }
-else:
-    DEBUG = True
-    DATABASE = {
-        'engine': 'peewee.PostgresqlDatabase',
-        'name': 'framingappdb',
-        'user': 'action',
-        'password': '',
-        'host': 'localhost',
-        'port': 5432 ,
-        'threadlocals': True
-    }
+urlparse.uses_netloc.append('postgres')
+url = urlparse.urlparse(os.environ['DATABASE_URL'])
+print(DATABASE_URL)
+DATABASE = {
+    'engine': 'peewee.PostgresqlDatabase',
+    'name': url.path[1:],
+    'user': url.username,
+    'password': url.password,
+    'host': url.hostname,
+    'port': url.port,
 
 app = Flask(__name__)
 app.config.from_object(__name__)
