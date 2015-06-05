@@ -2,7 +2,6 @@
 import os
 import urlparse
 import psycopg2
-#from flask_debugtoolbar import DebugToolbarExtension
 
 from flask import Flask, render_template, request, redirect, url_for
 from peewee import *
@@ -32,8 +31,6 @@ app = Flask(__name__)
 # create a settings.cfg in the base directory with the uncommented line:
 # SECRET_KEY = 'yourGibberishStringHere'
 app.config.from_pyfile('settings.cfg', silent=True)
-app.debug = DEBUG
-#toolbar = DebugToolbarExtension(app)
 
 # define a list item class
 class ListItem(Model):
@@ -105,4 +102,4 @@ def home():
 
 if __name__ == '__main__':
     initialize()
-    app.run(host='0.0.0.0', port=APP_PORT)
+    app.run(debug=DEBUG, host='0.0.0.0', port=APP_PORT)
