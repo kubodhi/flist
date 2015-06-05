@@ -2,6 +2,7 @@
 import os
 import urlparse
 import psycopg2
+from flask_debugtoolbar import DebugToolbarExtension
 
 from flask import Flask, render_template, request, redirect, url_for
 from peewee import *
@@ -31,11 +32,14 @@ app = Flask(__name__)
 # create a settings.cfg in the base directory with the uncommented line:
 # SECRET_KEY = 'yourGibberishStringHere'
 app.config.from_pyfile('settings.cfg', silent=True)
+app.debug = DEBUG
+toolbar = DebugToolbarExtension(app)
 
 # define a list item class
 class ListItem(Model):
     content = CharField()
     strike = BooleanField(default=False)
+    todo = CharField()
     
     class Meta:
         database = LIST_DB
@@ -60,7 +64,10 @@ def after_request(response):
 @app.route('/add', methods=['POST'])
 def add_item():
     """Add items to the list."""
-    ListItem.create(content=request.form['contentadd'])
+    try:
+        ListItem.create(content=request.form['contentadd'], todo=request.form['itemtype'])
+    except:
+        ListItem.create(content=request.form['contentadd'], todo="off")
     return redirect(url_for('view_items'))
 
 @app.route('/view')
