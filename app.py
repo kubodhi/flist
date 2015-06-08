@@ -6,7 +6,7 @@ import psycopg2
 from flask import Flask, render_template, request, redirect, url_for
 from peewee import *
 
-# Set up DB
+# Set up DB, condiontally heroku postgres if applicable
 if 'HEROKU' in os.environ:
     DEBUG=False
     APP_PORT=5000
@@ -20,7 +20,9 @@ if 'HEROKU' in os.environ:
         'host': url.hostname,
         'port': url.port,
         }
-    LIST_DB = PostgresqlDatabase(DATABASE['name'], host=DATABASE['host'], port=DATABASE['port'], user=DATABASE['user'], password=DATABASE['password'])
+    LIST_DB = (PostgresqlDatabase(DATABASE['name'], host=DATABASE['host'], 
+               port=DATABASE['port'], user=DATABASE['user'], 
+               password=DATABASE['password']))
 else:
     DEBUG=True
     APP_PORT=8080
@@ -28,18 +30,18 @@ else:
 
 app = Flask(__name__)
 
-# create a settings.cfg in the base directory with the uncommented line:
-# SECRET_KEY = 'yourGibberishStringHere'
-app.config.from_pyfile('settings.cfg', silent=True)
-
 # define a list item class
 class ListItem(Model):
     content = CharField()
     strike = BooleanField(default=False)
     todo = CharField()
-    
+
     class Meta:
         database = LIST_DB
+
+# create a settings.cfg in the base directory with the uncommented line:
+# SECRET_KEY = 'yourGibberishStringHere'
+app.config.from_pyfile('settings.cfg', silent=True)
 
 def initialize():
     """Initialize the DB safely."""
@@ -62,7 +64,8 @@ def after_request(response):
 def add_item():
     """Add items to the list."""
     try:
-        ListItem.create(content=request.form['contentadd'], todo=request.form['itemtype'])
+        ListItem.create(content=request.form['contentadd'], 
+                        todo=request.form['itemtype'])
     except:
         ListItem.create(content=request.form['contentadd'], todo="off")
     return redirect(url_for('view_items'))
